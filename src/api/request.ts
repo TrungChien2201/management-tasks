@@ -1,24 +1,26 @@
-import { message } from 'antd'
-import axios from 'axios'
-import Config from '@/utils/config'
-import { IRes } from '@/utils/interface'
+import { message } from "antd";
+import axios from "axios";
+import Config from "@/utils/config";
+import { IRes } from "@/utils/interface";
 
 const request = axios.create({
   baseURL: Config.API_URI,
   headers: {
-    'Content-Type': 'application/json; charset=UTF-8',
+    "Content-Type": "application/json; charset=UTF-8",
   },
 });
 
 request.interceptors.response.use((response) => {
-  const res: IRes = response.data;
-  // 当 error_code 不为 0 时，统一弹出错误提示框，并抛出错误
-  if (res.error_code) {
-    message.warn(res.msg);
-    throw new Error(res.msg);
+  try {
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    const res: IRes = response.data;
+    if (res.error_code) {
+      message.error(res.msg);
+      throw new Error(res.msg);
+    }
   }
-  // 当 error_code 为 0 时，继续返回请求
-  return response.data;
 });
 
 export default request;

@@ -1,5 +1,4 @@
-import ManagementTasksList from "@components/modules/task/ManagementTasksList";
-import React from "react";
+import ManagementTasksList from "@/components/modules/task/ManagementTasksList";
 
 const ManagementTasks = () => {
   return <ManagementTasksList />;
